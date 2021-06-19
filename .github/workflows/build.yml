@@ -160,6 +160,14 @@
                     "run": "./ci/test-release-mac.sh",
                     "env": { "KRB5_VER": "heimdal" },
                 },
+                {
+                    "name": "Upload built artifacts",
+                    "uses": "actions/upload-artifact@v2",
+                    "with": {
+                        "name": "py-${{ matrix.pyenv }}-dist",
+                        "path": "dist/",
+                    },
+                },
             ],
         },
     },

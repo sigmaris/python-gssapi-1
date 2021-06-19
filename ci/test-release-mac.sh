@@ -11,7 +11,7 @@ python setup.py bdist_wheel
 
 cd dist
 
-tag=$(git describe --tags)
+tag=v0.0.0
 
 # Rename and checksum the wheel
 if [ x"${tag#v[0-9]}" = "x${tag}" ]; then
