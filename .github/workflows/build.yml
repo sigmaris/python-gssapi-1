@@ -114,14 +114,50 @@
 
         "macos-heimdal": {
             "runs-on": "macos-latest",
+            "strategy": {
+                "fail-fast": false,
+                "matrix": {
+                    "name": [
+                        "mac-py-3.9",
+                        "mac-py-3.8",
+                        "mac-py-3.7",
+                        "mac-py-3.6",
+                    ],
+                    "include": [
+                        {
+                            "name": "mac-py-3.9",
+                            "pyenv": "3.9",
+                        },
+                        {
+                            "name": "mac-py-3.8",
+                            "pyenv": "3.8",
+                        },
+                        {
+                            "name": "mac-py-3.7",
+                            "pyenv": "3.7",
+                        },
+                        {
+                            "name": "mac-py-3.6",
+                            "pyenv": "3.6",
+                        },
+                    ],
+                },
+            },
             "steps": [
                 {
                     "name": "Check out code",
                     "uses": "actions/checkout@v2",
                 },
                 {
-                    "name": "Build and test gssapi",
-                    "run": "./ci/build.sh",
+                    "name": "Install the right python",
+                    "uses": "actions/setup-python@v2",
+                    "with": {
+                        "python-version": "${{ matrix.pyenv }}",
+                    },
+                },
+                {
+                    "name": "Test release on Mac",
+                    "run": "./ci/test-release-mac.sh",
                     "env": { "KRB5_VER": "heimdal" },
                 },
             ],
